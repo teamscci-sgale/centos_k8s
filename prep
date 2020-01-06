@@ -4,12 +4,12 @@ yum remove -y vim-minimal
 yum install -y vim-enhanced
 yum install -y sudo
 
-cat << EOF > .vimrc
+cat << EOF > ../.vimrc
 syntax enable
 colorscheme torte
 EOF
 
-chown scci-admin: .vimrc
+chown sonny: ../.vimrc
 
 cat << EOF > /root/.vimrc
 syntax enable

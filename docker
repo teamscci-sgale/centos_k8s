@@ -1,5 +1,12 @@
 #! /bin/bash
 
+firewall-cmd --permanent --zone=public --add-port=2377/tcp
+firewall-cmd --reload
+
+sudo modprobe br_netfilter
+sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+
 # Set SELinux in permissive mode (effectively disabling it)
 sudo setenforce 0
 #sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
@@ -22,7 +29,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now docker
 
 # Assign "scci-admin" to the Docker group
-sudo usermod -aG docker scci-admin
+sudo usermod -aG docker sonny
 
 # Install Docker Compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
