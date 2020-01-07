@@ -15,4 +15,6 @@ sudo pvcreate /dev/sdc
 sudo vgcreate vol2 /dev/sdc
 sudo lvcreate -l 100%FREE -n data vol2
 
-sudo curl -fsSL ftp://download.storidge.com/pub/ce/cio-ce | sudo bash
+kubectl create -f https://raw.githubusercontent.com/Storidge/csi-cio/master/deploy/releases/csi-cio-v1.2.0.yaml
+
+curl -fsSL ftp://download.storidge.com/pub/ce/cio-ce | sudo bash

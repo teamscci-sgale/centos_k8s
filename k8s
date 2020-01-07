@@ -3,6 +3,7 @@
 # Enable the br_netfilter module for cluster communication
 sudo modprobe br_netfilter
 sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+sudo echo '1' > /proc/sys/net/bridge/bridge-nf-call-ip6tables
 
 sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
 
@@ -16,8 +17,8 @@ sudo firewall-cmd --reload
 
 # Worker Nodes
 sudo firewall-cmd --permanent --zone=public --add-port=10250/tcp # Kubelet API
-sudo firewall-cmd --permanent --zone=public --add-port=30000-32767/tcp # NodePort Services**	
-sudo firewall-cmd --reload
+# sudo firewall-cmd --permanent --zone=public --add-port=30000-32767/tcp # NodePort Services**	
+# sudo firewall-cmd --reload
 
 # Add Kubernetes repo
 sudo cat <<EOF > /etc/yum.repos.d/kubernetes.repo
@@ -44,13 +45,15 @@ sudo sysctl --system
 
 sudo systemctl enable --now kubelet
 
-sudo reboot
+sudo kubeadm init
 
-# kubeadm init --pod-network-cidr=10.244.0.0/16
-# mkdir -p $HOME/.kube
-# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-# sudo chown $(id -u):$(id -g) $HOME/.kube/config
-# kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl create clusterrolebinding root-cluster-admin-binding --clusterrole=cluster-admin --user=scci-admin
+kubectl create clusterrolebinding root-cluster-root-binding --clusterrole=cluster-admin --user=root
+
 # kubectl get nodes
 # kubectl get pods --all-namespaces
 # kubectl get nodes
