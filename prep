@@ -23,7 +23,7 @@ syntax enable
 colorscheme torte
 EOF
 
-chown scci-admin: ../.vimrc
+chown sonny: ../.vimrc
 
 cat << EOF > /root/.vimrc
 syntax enable
