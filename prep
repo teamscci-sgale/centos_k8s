@@ -33,11 +33,23 @@ EOF
 yum install -y epel-release
 yum install -y open-vm-tools-desktop wget mlocate elinks yum-utils net-tools autoconf bc bind-utils bison cryptsetup-luks expect gcc libyaml libyaml-devel lsof lsscsi iscsi-initiator-utils make net-tools pciutils subversion xfsprogs
 yum install -y https://kojipkgs.fedoraproject.org//vol/fedora_koji_archive01/packages/fio/2.6/1.fc24/x86_64/fio-2.6-1.fc24.x86_64.rpm
-yum install -y https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/RPMS/mongodb-org-server-3.6.16-1.el7.x86_64.rpm
-yum install -y mongo-c-driver
 
 yum update -y
 
 yum clean all
 rm -rf /var/cache/yum
+
+# Add Kubernetes repo
+sudo cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+sudo yum makecache -y
+
 reboot
