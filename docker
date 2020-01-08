@@ -2,7 +2,6 @@
 
 # Set SELinux in permissive mode (effectively disabling it)
 sudo setenforce 0
-#sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 sudo sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 
 # Disable swap to prevent memory allocation issues
@@ -28,3 +27,8 @@ sudo usermod -aG docker scci-admin
 sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+docker pull portainer/portainer
+docker pull portainer/agent
+docker pull storidge/cio
+docker pull storidge/nfs

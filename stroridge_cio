@@ -1,10 +1,5 @@
 #! /bin/bash
 
-# Open firewall ports
-sudo firewall-cmd --permanent --zone=public --add-port=8080/tcp
-sudo firewall-cmd --permanent --zone=public --add-port=9000/tcp
-sudo firewall-cmd --reload
-
 # Enable /dev/sdb
 sudo pvcreate /dev/sdb
 sudo vgcreate vol1 /dev/sdb
@@ -14,7 +9,5 @@ sudo lvcreate -l 100%FREE -n data vol1
 sudo pvcreate /dev/sdc
 sudo vgcreate vol2 /dev/sdc
 sudo lvcreate -l 100%FREE -n data vol2
-
-kubectl create -f https://raw.githubusercontent.com/Storidge/csi-cio/master/deploy/releases/csi-cio-v1.2.0.yaml
 
 curl -fsSL ftp://download.storidge.com/pub/ce/cio-ce | sudo bash
